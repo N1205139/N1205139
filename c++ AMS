@@ -1,0 +1,214 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+// Enums and Constants
+enum class FlightStatus { ACTIVE, SCHEDULED, DELAYED, DEPARTED, LANDED, IN_AIR, ARRIVED, CANCELLED, DIVERTED, UNKNOWN };
+enum class PaymentStatus { UNPAID, PENDING, COMPLETED, FILLED, DECLINED, CANCELLED, ABANDONED, SETTLING, SETTLED, REFUNDED };
+enum class ReservationStatus { REQUESTED, PENDING, CONFIRMED, CHECKED_IN, CANCELLED, ABANDONED };
+enum class SeatClass { ECONOMY, ECONOMY_PLUS, PREFERRED_ECONOMY, BUSINESS, FIRST_CLASS };
+enum class SeatType { REGULAR, ACCESSIBLE, EMERGENCY_EXIT, EXTRA_LEG_ROOM };
+enum class AccountStatus { ACTIVE, CLOSED, CANCELED, BLACKLISTED, BLOCKED };
+// Forward Declarations
+class Account;
+class Person;
+class Customer;
+class Passenger;
+class Airport;
+class Aircraft;
+class Seat;
+class FlightSeat;
+class WeeklySchedule;
+class CustomSchedule;
+class Flight;
+class FlightInstance;
+class FlightReservation;
+class Itinerary;
+// Address Class
+class Address {
+private:
+    string street;
+    string city;
+    string state;
+    string zip_code;
+    string country;
+public:
+    Address(string street, string city, string state, string zip_code, string country) 
+        : street(street), city(city), state(state), zip_code(zip_code), country(country) {}
+// Account Class
+class Account {
+private:
+    int id;
+    string password;
+    AccountStatus status;
+public:
+    Account(int id, string password, AccountStatus status = AccountStatus::ACTIVE) 
+        : id(id), password(password), status(status) {}
+  void reset_password() {
+        // Implementation
+// Person Class
+class Person {
+private:
+    string name;
+    Address address;
+    string email;
+    string phone;
+    Account account;
+public:
+    Person(string name, Address address, string email, string phone, Account account) 
+        : name(name), address(address), email(email), phone(phone), account(account) {}
+// Customer Class
+class Customer : public Person {
+private:
+    string frequent_flyer_number;
+public:
+    Customer(string frequent_flyer_number, string name, Address address, string email, string phone, Account account) 
+        : frequent_flyer_number(frequent_flyer_number), Person(name, address, email, phone, account) {}
+    void get_itineraries() {
+        // Implementation
+// Passenger Class
+class Passenger {
+private:
+    string name;
+    string passport_number;
+    string date_of_birth;
+public:
+    Passenger(string name, string passport_number, string date_of_birth) 
+        : name(name), passport_number(passport_number), date_of_birth(date_of_birth) {}
+   string get_passport_number() {
+        return passport_number;
+// Airport Class
+class Airport {
+private:
+    string name;
+    Address address;
+    string code;
+public:
+    Airport(string name, Address address, string code) : name(name), address(address), code(code) {}
+    void get_flights() {
+        // Implementation
+// Aircraft Class
+class Aircraft {
+private:
+    string name;
+    string model;
+    int manufacturing_year;
+    vector<Seat> seats;
+public:
+    Aircraft(string name, string model, int manufacturing_year) 
+        : name(name), model(model), manufacturing_year(manufacturing_year) {}
+    void get_flights() {
+        // Implementation
+// Seat Class
+class Seat {
+private:
+    int seat_number;
+    SeatType type;
+    SeatClass seat_class;
+public:
+    Seat(int seat_number, SeatType type, SeatClass seat_class) 
+        : seat_number(seat_number), type(type), seat_class(seat_class) {}
+// FlightSeat Class
+class FlightSeat : public Seat {
+private:
+    double fare;
+public:
+    FlightSeat(int seat_number, SeatType type, SeatClass seat_class, double fare) 
+        : Seat(seat_number, type, seat_class), fare(fare) {}
+    double get_fare() 
+        return fare;
+// Flight Schedule classes
+class WeeklySchedule {
+private:
+    string day_of_week;
+    string departure_time;
+public:
+    WeeklySchedule(string day_of_week, string departure_time) 
+        : day_of_week(day_of_week), departure_time(departure_time) {}
+class CustomSchedule {
+private:
+    string custom_date;
+    string departure_time;
+public:
+    CustomSchedule(string custom_date, string departure_time) 
+        : custom_date(custom_date), departure_time(departure_time) {}
+// Flight Class
+class Flight {
+private:
+    string flight_number;
+    Airport departure;
+    Airport arrival;
+    int duration_in_minutes;
+    vector<WeeklySchedule> weekly_schedules;
+    vector<CustomSchedule> custom_schedules;
+    vector<FlightInstance> flight_instances;
+public:
+    Flight(string flight_number, Airport departure, Airport arrival, int duration_in_minutes) 
+        : flight_number(flight_number), departure(departure), arrival(arrival), duration_in_minutes(duration_in_minutes) {}
+    void add_weekly_schedule(WeeklySchedule schedule) {
+        weekly_schedules.push_back(schedule);
+    void add_custom_schedule(CustomSchedule schedule) {
+        custom_schedules.push_back(schedule);
+    void add_flight_instance(FlightInstance instance) {
+        flight_instances.push_back(instance)
+// FlightInstance Class
+class FlightInstance {
+private:
+    string departure_time;
+    string gate;
+    FlightStatus status;
+    Aircraft aircraft;
+public:
+    FlightInstance(string departure_time, string gate, FlightStatus status, Aircraft aircraft) 
+        : departure_time(departure_time), gate(gate), status(status), aircraft(aircraft) {}
+    void cancel() {
+        // Implementation
+    void update_status(FlightStatus status) {
+        this->status = status;
+// FlightReservation Class
+class FlightReservation {
+private:
+    int reservation_number;
+    Flight flight;
+    map<int, Passenger> seat_map; // Assuming seat_number as key
+    string creation_date;
+    ReservationStatus status;
+public:
+    FlightReservation(int reservation_number, Flight flight, string creation_date, ReservationStatus status) 
+        : reservation_number(reservation_number), flight(flight), creation_date(creation_date), status(status) {}
+    void fetch_reservation_details(int reservation_number) {
+        // Implementation
+    void get_passengers() {
+        // Implementation
+// Itinerary Class
+class Itinerary {
+private:
+    int customer_id;
+    Airport starting_airport;
+    Airport final_airport;
+    string creation_date;
+    vector<FlightReservation> reservations;
+public:
+    Itinerary(int customer_id, Airport starting_airport, Airport final_airport, string creation_date) 
+        : customer_id(customer_id), starting_airport(starting_airport), final_airport(final_airport), creation_date(creation_date) {}
+    void get_reservations() {
+        // Implementation
+    void make_reservation() {
+        // Implementation
+    void make_payment() {
+        // Implementation
+// Additional Classes: CarHireService, Security, TechSupport
+// CarHireService Class
+class CarHireService {
+    // Implementation
+// Security Class
+class Security {
+    // Implementation
+// TechSupport Class
+class TechSupport {
+    // Implementation
+int main() {
+    // Test your implementation here
+    return 0;
+}
